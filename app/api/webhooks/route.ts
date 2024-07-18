@@ -4,9 +4,17 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const chunks = [];
-  for await (const chunk of req.body) {
-    chunks.push(chunk);
+  if (req.body != null) {
+    const reader = req.body.getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) {
+        break;
+      }
+      chunks.push(value);
+    }
   }
+  
   const data = Buffer.concat(chunks).toString();
 
   try {
