@@ -14,12 +14,9 @@ export async function POST(req: Request) {
       chunks.push(value);
     }
   }
-  
   const data = Buffer.concat(chunks).toString();
-
   try {
     const jsonData = JSON.parse(data);
-    
     await inngest.send({
       name: "myfunc/send.anth",
       data: jsonData
