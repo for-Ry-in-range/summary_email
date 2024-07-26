@@ -15,6 +15,7 @@ export const sendToAnth = inngest.createFunction(
       console.log("Got inside sendToAuth")
       const data = event.data
       const extractPrompt = "You are an extremely thorough research assistant for an investor. \nExtract company names and its related information from the email when there is mention of completed funding rounds, into a table.\nFormat:\n```markdown\n| Company Name | USD Raised | Round Type | What the company does |  Industries | Investor list |\n| --- | --- | --- | --- |  --- | --- |\n```\nExample:\n```markdown\n| Company Name | USD Raised | Round Type | What the company does |  Industries | Investor list |\n| --- | --- | --- | --- |  --- | --- |\n| Graphlan | $10m | Series A | Graphlan provides social networking services for professionals |  Social Networking, AI | Sequoia Capital, Accel |\n```\nIf there are multiple companies, add a new line for each company.\nReturn only the markdown content, no formatting or additional text. Do not include | Company Name | USD Raised | Round Type | What the company does | Industries | Investor list | | --- | --- | --- | --- | --- | --- | in your response."
+      console.log(process.env.ANTHROPIC_API_KEY)
       const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
       const msg = await anthropic.messages.create({
         model: "claude-3-5-sonnet-20240620",
