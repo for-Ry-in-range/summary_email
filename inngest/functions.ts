@@ -23,7 +23,7 @@ export const sendToAnth = inngest.createFunction(
           {"role": "user", "content": `You are reading an email with the subject: ${data.headers.subject}\n\`\`\`html\n${data.plain}\n\`\`\`\nExtract the following information: \n<blockquote>\n${extractPrompt}\n</blockquote>\nIf no information can be extracted, please respond with "No information detected."`}
         ]
       });
-      console.log("Before adding")
+      console.log("Before addingg")
       const existingUser = await prisma.user.findUnique({
         where: { email: data.envelope.from },
       });
