@@ -1,6 +1,7 @@
 import { inngest } from "../../../inngest/client";
 
 export async function GET() {
+    console.error("GETTTT")
     try {
         await inngest.send({
           name: "myfunc/send-summary"
