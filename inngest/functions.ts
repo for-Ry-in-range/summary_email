@@ -58,6 +58,17 @@ export const sendSummary = inngest.createFunction(
   { id: "send-summary" },
   { event: "myfunc/send-summary" },
   async ({event, step}) => {
+    try {
+      await resend.emails.send({
+        from: 'onboarding@resend.dev',
+        to: "rylowong8@gmail.com",
+        subject: 'Your Daily Summary of Companies',
+        html: `<p>TesTinG</p>`
+      });
+    }
+    catch(error){
+      console.error("Emailing Error:", error)
+    }
 
     const users = await prisma.user.findMany();
     console.log("got to function")
