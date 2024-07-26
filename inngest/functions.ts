@@ -60,7 +60,7 @@ export const sendSummary = inngest.createFunction(
   async ({event, step}) => {
 
     const users = await prisma.user.findMany();
-
+    console.log("got to function")
     for (const user of users) {
       try {
         await resend.emails.send({
