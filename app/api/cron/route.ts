@@ -6,7 +6,7 @@ export async function GET() {
         await inngest.send({
           name: "myfunc/send-summary"
         });
-        return new Response("Successful", { status: 200 });
+        return new Response("Successful!", { status: 200 });
     } catch (error) {
         console.error("Error:", error)
         return new Response("Error occured", {status: 500})
