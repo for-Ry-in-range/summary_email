@@ -7,6 +7,8 @@ const resend = new Resend('re_NHYRNKnP_ExRzxqMXKHUUm5P5nY9tapT5');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+export const maxDuration = 60;
+
 export const sendToAnth = inngest.createFunction(
   { id: "send-anth" },
   { event: "myfunc/send.anth" },
