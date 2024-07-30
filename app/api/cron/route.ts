@@ -7,7 +7,7 @@ export async function POST() {
           name: "myfunc/send-summary"
         });
         console.log("After send-summary")
-        return new Response("Successful!", { status: 500 });
+        return new Response("Successful!", { status: 200 });
     } catch (error) {
         console.error("Error:", error)
         return new Response("Error occured", {status: 500})
