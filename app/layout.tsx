@@ -1,11 +1,5 @@
 "use client";
-import { inngest } from "./../inngest/client";
-
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { useState } from "react";
-import { useUser } from "@clerk/nextjs";
+import { Button } from "@/components/ui/button";
 import {
   ClerkProvider,
   SignInButton,
@@ -13,86 +7,22 @@ import {
   SignedOut, 
   UserButton,
 } from '@clerk/nextjs';
+import './globals.css';
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label"
+import React, { useState } from 'react';
+import { useUser } from '@clerk/clerk-react';
+import { Header } from "./layout";
+
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function App() {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
-}
-
-export function MyComponent() {
-  const [promptValue, setPromptValue] = useState('');
-  const [nameValue, setNameValue] = useState('');
-  const {user} = useUser();
-  const [showEmail, setShowEmail] = useState('')
-
-  const createInbox = async (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
-    console.log("clicked")
-    if (user) {
-      try {
-        await inngest.send({
-          name: "myfunc/create-inbox",
-          data: {
-            name: nameValue,
-            prompt: promptValue,
-            send_to: user.primaryEmailAddress?.emailAddress
-          }
-        });
-      } catch(error) {
-        console.error("Error:", error)
-      }
-    }
-  }
-
-  const changeShowEmail = async (event: {preventDefault: () => void;}) => {
-    event.preventDefault();
-    
-  }
-
-  return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-
-          <br/>
-
-          <h2>Create inbox</h2>
-          
-          <p className="leading-7 [&:not(:first-child)]:mt-6">Setup an inbox to process incoming emails</p>
-          
-          <Label>Name</Label> 
-          <Input placeholder="e.g. Investment newsletters inbox" value={nameValue} onChange={(e) => setNameValue(e.target.value)}/>
-
-          <br/>
-
-          <Label htmlFor="prompt">Extract command (prompt)</Label>
-          <Textarea id="prompt" value={promptValue} onChange={(e) => setPromptValue(e.target.value)}/>
-          <br/>
-          <p className="leading-7 [&:not(:first-child)]:mt-6">
-            This is the AI prompt that will be used to extract information from the incoming emails
-          </p>
-          <br/>
-          <button onClick={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
-          {showEmail && <p>Forward emails to:</p>}
-      </main>
+    <ClerkProvider>
+      <Header />
+    </ClerkProvider>
   );
 }
