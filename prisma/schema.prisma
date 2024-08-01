@@ -9,7 +9,10 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model User {
-  email String @id
-  daily_summary String
+model Inbox {
+  cloudmailin String @id @default(uuid())
+  name String
+  prompt String
+  extracted String
+  send_to String
 }
