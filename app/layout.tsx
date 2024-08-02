@@ -24,7 +24,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { ReactNode } from "react";
 
-export default function RootLayout() {
+export default function Home() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const {user} = useUser();
