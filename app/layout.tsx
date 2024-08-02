@@ -24,16 +24,17 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { ReactNode } from "react";
 
-export default function Home() {
+export default function RootLayout() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const {user} = useUser();
-  const [showEmail, setShowEmail] = useState('')
+  const [showEmail, setShowEmail] = useState(false)
 
   const createInbox = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     console.log("clicked")
     if (user) {
+      setShowEmail(true)
       try {
         await inngest.send({
           name: "myfunc/create-inbox",
@@ -41,7 +42,7 @@ export default function Home() {
             name: nameValue,
             prompt: promptValue,
             send_to: user.primaryEmailAddress?.emailAddress
-          },
+          }
         });
       } catch(error) {
         console.error("Error:", error)
@@ -55,6 +56,7 @@ export default function Home() {
   }
 
   return (
+    <ClerkProvider>
       <main className="flex min-h-screen flex-col items-center justify-between p-24">
           <SignedOut>
             <SignInButton />
@@ -84,5 +86,6 @@ export default function Home() {
           <button onClick={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
           {showEmail && <p>Forward emails to:</p>}
       </main>
+    </ClerkProvider>
   );
 }
