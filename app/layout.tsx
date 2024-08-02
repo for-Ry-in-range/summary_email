@@ -22,19 +22,9 @@ const prisma = new PrismaClient();
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Layout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  );
-}
+import { ReactNode } from "react";
 
-export function SiteLayout() {
+export default function RootLayout() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const {user} = useUser();
