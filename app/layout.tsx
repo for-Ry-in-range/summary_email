@@ -1,4 +1,3 @@
-"use client";
 import { inngest } from "./../inngest/client";
 
 import type { Metadata } from "next";
@@ -16,6 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@radix-ui/react-label";
+import { currentUser } from '@clerk/nextjs/server';
 
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
@@ -27,8 +27,8 @@ import { ReactNode } from "react";
 export default function RootLayout() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
-  const {user} = useUser();
   const [showEmail, setShowEmail] = useState(false)
+  const user = currentUser()
 
   const createInbox = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ export default function RootLayout() {
           data: {
             name: nameValue,
             prompt: promptValue,
-            send_to: user.primaryEmailAddress?.emailAddress
+            send_to: JSON.stringify(await user, null, 2)
           }
         });
       } catch(error) {
@@ -84,7 +84,7 @@ export default function RootLayout() {
           </p>
           <br/>
           <button onClick={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
-          {showEmail && <p>Forward emails to:</p>}
+          {showEmail && <p>Forward emails to: 460d6ee3760a17630822+{}@cloudmailin.net</p>}
       </main>
     </ClerkProvider>
   );
