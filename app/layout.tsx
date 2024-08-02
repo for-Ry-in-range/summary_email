@@ -24,11 +24,11 @@ const inter = Inter({ subsets: ["latin"] });
 
 import { ReactNode } from "react";
 
-export default function RootLayout() {
+export default async function RootLayout() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const [showEmail, setShowEmail] = useState(false)
-  const user = currentUser()
+  const user = await currentUser()
 
   const createInbox = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -41,7 +41,7 @@ export default function RootLayout() {
           data: {
             name: nameValue,
             prompt: promptValue,
-            send_to: JSON.stringify(await user, null, 2)
+            send_to: user.primaryEmailAddressId
           }
         });
       } catch(error) {
