@@ -41,7 +41,7 @@ export default function Home() {
             name: nameValue,
             prompt: promptValue,
             send_to: user.primaryEmailAddress?.emailAddress
-          }
+          },
         });
       } catch(error) {
         console.error("Error:", error)
