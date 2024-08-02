@@ -34,7 +34,7 @@ export default function Layout({
   );
 }
 
-export function Header() {
+export function App() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
   const {user} = useUser();
