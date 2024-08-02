@@ -83,7 +83,7 @@ export default async function RootLayout() {
             This is the AI prompt that will be used to extract information from the incoming emails
           </p>
           <br/>
-          <button onMouseDown={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
+          <button onClick={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
           {showEmail && <p>Forward emails to: 460d6ee3760a17630822+{}@cloudmailin.net</p>}
       </main>
     </ClerkProvider>
