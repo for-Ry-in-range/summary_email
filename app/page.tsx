@@ -4,7 +4,7 @@ import {
 } from '@clerk/nextjs';
 import './globals.css';
 import React, { useState } from 'react';
-import Home from "./layout";
+import RootLayout from "./layout";
 
 const clerk_pub_key = process.env.NEXT_PUBLIC_CLERK_FRONTEND_API;
 
@@ -13,8 +13,6 @@ const prisma = new PrismaClient();
 
 export default function App() {
   return (
-    <ClerkProvider>
-      <Home/>
-    </ClerkProvider>
+    <RootLayout/>
   );
 }
