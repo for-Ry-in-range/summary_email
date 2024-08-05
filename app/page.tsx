@@ -13,6 +13,6 @@ const prisma = new PrismaClient();
 
 export default function App() {
   return (
-    <RootLayout/>
+    <RootLayout children={undefined}/>
   );
 }
