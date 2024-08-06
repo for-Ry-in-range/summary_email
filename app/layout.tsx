@@ -18,7 +18,7 @@ import { ReactNode } from "react";
 export default function RootLayout({
   children,
 }: {
-children: React.ReactNode
+  children?: React.ReactNode; // Make children optional
 }) {
   return (
     <html>
