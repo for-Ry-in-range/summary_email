@@ -1,4 +1,4 @@
-import { inngest } from "../../../inngest/client";
+import { inngest } from "../../../../inngest/client";
 
 export async function POST() {
     console.log("GETTTT")
