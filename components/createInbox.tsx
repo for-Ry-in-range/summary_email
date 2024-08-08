@@ -1,6 +1,6 @@
 "use client";
 import { inngest } from "../inngest/client";
-import "../app/globals.css";
+import "../src/app/globals.css";
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import { Textarea } from "@/components/ui/textarea"
@@ -13,16 +13,15 @@ const prisma = new PrismaClient();
 export default function CreateInbox() {
   const [promptValue, setPromptValue] = useState('');
   const [nameValue, setNameValue] = useState('');
-  const [showEmail, setShowEmail] = useState(false)
+  const [nameEmail, setNameEmail] = useState([])
   const { isLoaded, user } = useUser()
 
   const createInbox = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    console.log("clicked")
     if (user) {
-      if (!(~isLoaded) && user.primaryEmailAddress) {
-        setShowEmail(true)
+      if (~isLoaded && user.primaryEmailAddress) {
         try {
+          console.log("BEFORE INNGEST FUNCTION")
           await inngest.send({
             name: "myfunc/create-inbox",
             data: {
@@ -31,12 +30,18 @@ export default function CreateInbox() {
               send_to: user.primaryEmailAddress.emailAddress
             }
           });
+          const result = await fetch('http://localhost:3000/api/get_inboxes')
+          const data = await result.json()
+          console.log(data)
+          //setNameEmail(result)
         } catch(error) {
           console.error("Error:", error)
         }
       }
     }
   }
+
+  //setNameEmail(await fetch('localhost:3000/get_inboxes'))
 
   const changeShowEmail = async (event: {preventDefault: () => void;}) => {
     event.preventDefault();
@@ -64,7 +69,12 @@ export default function CreateInbox() {
       </p>
       <br/>
       <button onClick={createInbox} className="bg-orange-500 hover:bg-orange-600">Create inbox</button>
-      {showEmail && <p>Forward emails to: 460d6ee3760a17630822+{}@cloudmailin.net</p>}
+      <p>Email addresses for your inbox(es):</p>
+      <ul>
+        {nameEmail.map((name) => (
+          <li>{name[0]}: {name[1]}</li>
+        ))}
+      </ul>
     </>
   );
 }
