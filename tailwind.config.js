@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./features/landing/components/WarmReferralToolLandingPage/*.tsx"],
+  content: [
+    "./src/app/*.tsx",
+    "./components/ui/createInbox.tsx"
+  ],
   theme: {
       extend: {},
   },
