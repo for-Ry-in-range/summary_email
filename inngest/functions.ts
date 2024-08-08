@@ -15,8 +15,10 @@ export const sendToAnth = inngest.createFunction(
     try {
       console.log("Got inside sendToAuth")
       const data = event.data
+      const afterPlus = data.envelope.to.split('+').slice(1); // Getting the part after the +
+      const withoutDomain = afterPlus[0].split('@')[0]
       const inbox = await prisma.inbox.findUnique({
-        where: { cloudmailin: data.envelope.to },
+        where: { cloudmailin: withoutDomain },
       });
       if (inbox) {
         const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
@@ -27,8 +29,9 @@ export const sendToAnth = inngest.createFunction(
             {"role": "user", "content": `You are reading an email with the subject: ${data.headers.subject}\n\`\`\`html\n${data.plain}\n\`\`\`\nExtract the following information: \n<blockquote>\n${inbox.prompt}\n</blockquote>\nIf no information can be extracted, please respond with "No information detected."`}
           ]
         });
+        
         await prisma.inbox.update({
-          where: { cloudmailin: data.envelope.to },
+          where: { cloudmailin: withoutDomain },
           data: {
             extracted: inbox.extracted + "\n" + (msg.content[0] as { type: string; text: string }).text
           }
@@ -87,7 +90,6 @@ export const createInbox = inngest.createFunction(
     console.log("name", data.name)
     console.log("prompt", data.prompt)
     console.log("send_to", data.send_to)
-    console.log(prisma.inbox)
     try {
       const new_inbox = await prisma.inbox.create({
         data: {
@@ -97,10 +99,10 @@ export const createInbox = inngest.createFunction(
           send_to: data.send_to
         }
       })
-      return { event, body: "done" };
+      return new_inbox.cloudmailin
     } catch (error) {
       console.error("Error:", error)
-      return { event, body: "Error" };
+      return "Error";
     }
   }
 )
