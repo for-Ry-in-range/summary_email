@@ -1,5 +1,5 @@
 "use client";
-import { useUser } from "@clerk/nextjs";
+import { currentUser } from '@clerk/nextjs/server';
 let prisma: any;
 
 async function initializePrisma() {
@@ -12,7 +12,7 @@ async function initializePrisma() {
 export async function GET() {
   try {
     await initializePrisma();
-    const { user } = useUser()
+    const user = await currentUser();
     console.log("got to GET")
     if (!user) {
         return new Response('Not signed in', { status: 400 });
@@ -24,12 +24,12 @@ export async function GET() {
     // const rows = await prisma.inbox.findMany({
     //     where: {
     //         send_to: {
-    //         equals: req.body,
+    //         equals: user.primaryEmailAddress.emailAddress,
     //         },
     //     },
     // });
     }
-    return new Response(JSON.stringify("fjslkafasl"), { status: 200 });
+    return new Response(JSON.stringify("Successful"), { status: 200 });
   } catch (error) {
     console.error("Error in GET function:", error);
     return new Response('Internal Server Error', { status: 500 });
