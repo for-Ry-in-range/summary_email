@@ -31,7 +31,7 @@ export default function CreateInbox() {
                 send_to: user.primaryEmailAddress.emailAddress
               }
             });
-            const result = await fetch('https://summary-email-d48j.vercel.app/src/app/api/get_inboxes')
+            const result = await fetch('https://summary-email-d48j.vercel.app/api/get_inboxes')
             const data = await result.json()
             console.log(data)
             //setNameEmail(result)
