@@ -18,24 +18,26 @@ export default function CreateInbox() {
 
   const createInbox = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    if (user) {
-      if (~isLoaded && user.primaryEmailAddress) {
-        try {
-          console.log("BEFORE INNGEST FUNCTION")
-          await inngest.send({
-            name: "myfunc/create-inbox",
-            data: {
-              name: nameValue,
-              prompt: promptValue,
-              send_to: user.primaryEmailAddress.emailAddress
-            }
-          });
-          const result = await fetch('https://summary-email-d48j.vercel.app/src/app/api/get_inboxes')
-          const data = await result.json()
-          console.log(data)
-          //setNameEmail(result)
-        } catch(error) {
-          console.error("Error:", error)
+    if (nameValue != "" && promptValue != "") {
+      if (user) {
+        if (~isLoaded && user.primaryEmailAddress) {
+          try {
+            console.log("BEFORE INNGEST FUNCTION")
+            await inngest.send({
+              name: "myfunc/create-inbox",
+              data: {
+                name: nameValue,
+                prompt: promptValue,
+                send_to: user.primaryEmailAddress.emailAddress
+              }
+            });
+            const result = await fetch('https://summary-email-d48j.vercel.app/src/app/api/get_inboxes')
+            const data = await result.json()
+            console.log(data)
+            //setNameEmail(result)
+          } catch(error) {
+            console.error("Error:", error)
+          }
         }
       }
     }
